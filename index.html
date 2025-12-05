@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pedido DTF – Textimp</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 420px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        border: 3px solid #ff6a00;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #ff6a00;
+        margin-bottom: 25px;
+    }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    button {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(90deg, #ff6a00, #bb3e00);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    #mensaje {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 10px;
+        display: none;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Pedido DTF – Textimp</h2>
+
+    <form id="formulario" enctype="multipart/form-data" method="POST"
+    action="https://script.google.com/macros/s/AKfycbxHXnSo5d7ds_lBSdGm2Ro0Ied0FMFFnWDagKPiBnZVZTruN5Q6Z_YzlPApxrh0ub0/exec">
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" required />
+
+        <label>Teléfono</label>
+        <input type="text" name="telefono" required />
+
+        <label>Metros</label>
+        <input type="number" name="metros" required />
+
+        <label>¿Requiere acomodo?</label>
+        <select name="acomodo">
+            <option value="no">No</option>
+            <option value="si">Sí</option>
+        </select>
+
+        <label>Archivo (PNG, PDF, AI, PSD)</label>
+        <input type="file" name="file" required />
+
+        <button type="submit">Enviar Pedido</button>
+    </form>
+
+    <div id="mensaje"></div>
+</div>
+
+<script>
+document.getElementById("formulario").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: data
+    })
+    .then(r => r.json())
+    .then(res => {
+        const msg = document.getElementById("mensaje");
+        msg.style.display = "block";
+        msg.style.background = "#c8ffc8";
+        msg.style.color = "#006400";
+        msg.innerText = "Pedido confirmado ✔️";
+    })
+    .catch(err => {
+        const msg = document.getElementById("mensaje");
+        msg.style.display = "block";
+        msg.style.background = "#ffc8c8";
+        msg.style.color = "#640000";
+        msg.innerText = "Error al enviar el pedido ❌";
+    });
+});
+</script>
+
+</body>
+</html>
